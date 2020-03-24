@@ -2,15 +2,15 @@
 # and population-level properties
 mutable struct Population
     size::Int64
-    pheno_func::Function            # map genotype to phenotype
+    pheno_func!::Function            # map genotype to phenotype
     npheno::Int64                   # number of phenotypes for each individual
-    fit_func::Function              # map phenotype to fitness
-    mut_func::Function              # mutate genotype
+    fit_func!::Function              # map phenotype to fitness
+    mut_func!::Function              # mutate genotype
     members::Array{Individual,1}
     members_prev::Array{Individual,1}
     fitness::Array{Float64,2}
     mean_fit::Array{Float64,1}
-    env_func::Function
+    env_func!::Function
     env_state::Array{Float64,1}
 
     # Constructor
@@ -30,15 +30,15 @@ mutable struct Population
         end
         pop = new()
         pop.size = size
-        pop.pheno_func = pheno_func
+        pop.pheno_func! = pheno_func
         pop.npheno = npheno
-        pop.fit_func = fit_func
-        pop.mut_func = mut_func
+        pop.fit_func! = fit_func
+        pop.mut_func! = mut_func
         pop.members = members
         pop.members_prev = copy(members)
         pop.fitness = hcat(fill(1, size), fill(1/size, size))
         pop.mean_fit = [1.0, 1/size]
-        pop.env_func = env_func
+        pop.env_func! = env_func
         pop.env_state = env0
         return pop
     end

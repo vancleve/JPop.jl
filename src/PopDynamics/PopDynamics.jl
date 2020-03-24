@@ -1,8 +1,8 @@
 module PopDynamics
 # import base functions for multiple dispatch
 import Base.copy, Base.copy!
-using ..EnvDynamics: update_env_state
-using ..PopQuantities: calc_pheno_fitness
+using ..EnvDynamics: update_env_state!
+using ..PopQuantities: calc_pheno_fitness!
 using ..PopStructures: Individual, Population
 using Distributions
 export next_gen!
@@ -58,7 +58,7 @@ function next_gen!(pop::Population)
     copy!(pop.members_prev, pop.members)
 
     # update fitness values
-    calc_pheno_fitness(pop)
+    calc_pheno_fitness!(pop)
 
     # get normalized fertility
     norm_fert = pop.fitness[:,2] / (pop.mean_fit[2] * pop.size)
@@ -75,12 +75,12 @@ function next_gen!(pop::Population)
             # individual dies and is replaced by random new born
             pop.members[i].age = 0
             parent = rand(fertdist)
-            pop.mut_func(pop.members[i], pop.members_prev[parent]) # offspring, parent
+            pop.mut_func!(pop.members[i], pop.members_prev[parent]) # offspring, parent
         end
     end
 
     # update environmental state
-    update_env_state(pop)
+    update_env_state!(pop)
 
 end
 
