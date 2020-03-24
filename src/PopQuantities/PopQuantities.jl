@@ -1,19 +1,20 @@
 module PopQuantities
 using ..PopStructures: Population
 using Distributions
-export mean_genotype, mean_phenotype, age_distribution, calc_pheno_fitness
+export mean_genotype, mean_phenotype, age_distribution, calc_pheno_fitness!
 
-function calc_pheno_fitness(pop::Population)
+function calc_pheno_fitness!(pop::Population)
     pop.mean_fit = [0.0, 0.0]
 
     @inbounds for i = 1:pop.size
-        pop.pheno_func(pop.members[i], pop.env_state)
-        pop.fit_func(pop.members[i], pop.env_state)
+        pop.pheno_func!(pop.members[i], pop.env_state)
+        pop.fit_func!(pop.members[i], pop.env_state)
         pop.fitness[i,1] = pop.members[i].fitness[1]
         pop.fitness[i,2] = pop.members[i].fitness[2]
         pop.mean_fit[1] += pop.members[i].fitness[1] / pop.size
         pop.mean_fit[2] += pop.members[i].fitness[2] / pop.size
     end
+    nothing
 end
 
 function mean_genotype(pop::Population)
