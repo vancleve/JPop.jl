@@ -9,11 +9,7 @@ export next_gen!
 
 # copy method for Individual
 function copy(i::Individual)
-    j = Individual()
-    j.age = i.age
-    j.genotype = copy(i.genotype)
-    j.phenotype = copy(i.phenotype)
-    j.fitness = copy(i.fitness)
+    j = Individual(i.age, i.genotype, i.phenotype, i.fitness)
     return j
 end
 
