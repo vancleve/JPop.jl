@@ -8,17 +8,10 @@ using Distributions
 export next_gen!
 
 # copy method for Individual
-<<<<<<< HEAD
 copy(i::Individual) = Individual(i.age,
                         copy(i.genotype),
                         copy(i.phenotype),
                         copy(i.fitness))
-=======
-function copy(i::Individual)
-    j = Individual(i.age, i.genotype, i.phenotype, i.fitness)
-    return j
-end
->>>>>>> 438948a368477b41ed6589f6ced8cb9635131b81
 
 # copy inplace method for Individual
 function copy!(i::Individual, j::Individual)
