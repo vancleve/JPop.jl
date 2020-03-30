@@ -1,9 +1,9 @@
 # type for population, which is a collection of individuals,
 # and population-level properties
 mutable struct Population
-    size::Int64
+    size::Int
     pheno_func!::Function            # map genotype to phenotype
-    npheno::Int64                   # number of phenotypes for each individual
+    npheno::Int                   # number of phenotypes for each individual
     fit_func!::Function              # map phenotype to fitness
     mut_func!::Function              # mutate genotype
     members::Array{Individual,1}
@@ -16,8 +16,8 @@ mutable struct Population
     # Constructor
     ## geno_func function is used to initialize genotypes
     ## e.g., ()->[rand()] initializes each genotype to a random value in (0,1)
-    function Population(size::Int64,
-                        pheno_func::Function, npheno::Int64, fit_func::Function,
+    function Population(size::Int,
+                        pheno_func::Function, npheno::Int, fit_func::Function,
                         mut_func::Function, geno_func::Function,
                         env_func::Function, env0::Array{Float64,1})
 
