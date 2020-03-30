@@ -1,7 +1,7 @@
 # Environment update functions
 module EnvDynamics
 using ..PopStructures: Population
-export update_env_state!
+export update_env_state!, autoregressive
 # "autoregressive" type model
 function autoregressive(x::Array{Float64,1}, θ::Array{Float64,1}=[0.5], σ::Float64=1.0)
     x_new = zeros(size(x))
