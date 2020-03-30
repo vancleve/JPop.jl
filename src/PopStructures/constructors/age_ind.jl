@@ -7,8 +7,8 @@ mutable struct Individual
 
     # constructors
     Individual() = new(0, Float64[], Float64[], [1.0, 1.0])
-    Individual(age) = new(age, Float64[], Float64[], [1.0, 1.0])
-    Individual(age, genotype) = new(age, genotype, Float64[], [1.0, 1.0])
-    Individual(age, genotype, phenotype) = new(age, genotype, phenotype, [1.0, 1.0])
-    Individual(age, genotype, phenotype, fitness) = new(age, genotype, phenotype, fitness)
+    Individual(age::Int64) = new(age, Float64[], Float64[], [1.0, 1.0])
+    Individual(age::Int64, genotype::Vector{Float64}) = new(age, genotype, Float64[], [1.0, 1.0])
+    Individual(age::Int64, genotype::Vector{Float64}, phenotype::Vector{Float64}) = new(age, genotype, phenotype, [1.0, 1.0])
+    Individual(age::Int64, genotype::Vector{Float64}, phenotype::Vector{Float64}, fitness::Vector{Float64}) = new(age, genotype, phenotype, fitness)
 end
