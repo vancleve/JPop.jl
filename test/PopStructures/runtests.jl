@@ -1,5 +1,6 @@
 const structdir = dirname(@__FILE__)
-tests = ["age_ind"
+tests = ["age_ind",
+        "population"
 ]
 
 @testset "PopStructures" begin

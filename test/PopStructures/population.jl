@@ -26,11 +26,11 @@
     # env update function
     envf = (e) -> [1.0]
     # initial env state
-    env = [1.0]
+    env0 = [1.0]
     pop = Population(size, phenof!, npheno, fitf!, mutf!, g0, envf, env0);
     ni = rand(1:size)
     @test pop.size == size
     m = pop.members[ni]
-    @test m.phenotype[ni] == phenof!(m,0)
+    @test m.phenotype[1] == phenof!(m,0)
     @test m.genotype == g0(m)
 end
