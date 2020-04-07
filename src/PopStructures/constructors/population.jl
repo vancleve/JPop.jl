@@ -16,10 +16,10 @@ mutable struct Population
     # Constructor
     ## geno_func function is used to initialize genotypes
     ## e.g., ()->[rand()] initializes each genotype to a random value in (0,1)
-    function Population(size::Int,
-                        pheno_func::Function, npheno::Int, fit_func::Function,
-                        mut_func::Function, geno_func0::Function,
-                        env_func::Function, env0::Array{Float64,1})
+    function Population(size::Int, pheno_func::Function
+                        , npheno::Int, fit_func::Function
+                        , mut_func::Function, geno_func0::Function
+                        , env_func::Function, env0::Array{Float64,1})
 
         members = Array{Individual}(undef,size)
         for i=1:size
