@@ -1,7 +1,7 @@
 name = "JPop"
 uuid = "9abfff95-bc0f-4122-8446-e1863fb4be3a"
 authors = ["Daniel Priego Espinosa", "Jeremy Van Cleve"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"

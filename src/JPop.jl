@@ -8,13 +8,17 @@ module JPop
 using Distributions, LinearAlgebra
 
 export
+# interface
+HaploidPop, DiploidPop, HaploDiploidPop,
 # Basic types
-Individual, Population,
+HapIndividual, Population,
 # population quantities
 mean_genotype, mean_phenotype, age_distribution,
 # population dynamics
-next_gen!
+next_gen!, setInitFreq
 
+include("interface.jl")
+include("utils.jl")
 include("PopStructures/PopStructures.jl")
 using .PopStructures
 include("PopQuantities/PopQuantities.jl")
