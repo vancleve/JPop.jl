@@ -9,23 +9,6 @@ using JPop
 ## common routines
 ##
 
-# round to nearest integer randomly
-function rround(x)
-    return floor(Int,x) + (rand() < x - floor(Int,x))
-end
-
-# set initial frequency
-function setInitFreq(p, freq0, gvals = [1.0, 0.0])
-    n = p.size
-    k = rround(n * freq0)
-    for i in 1:k
-        p.members[i].genotype = [gvals[1]]
-    end
-    for i in k+1:n
-        p.members[i].genotype = [gvals[2]]
-    end
-end
-
 # measure fixation
 function fixation(p, freq0, reps, iters, gvals = [1.0, 0.0])
     m = zeros(length(p.members[1].genotype))
@@ -67,12 +50,22 @@ function fitf(i,e)
     i.fitness[2] = 1.0
 end
 
-function mutf(offspring::Individual, parent::Individual)
+function mutf(offspring::HapIndividual, parent::HapIndividual)
     copy!(offspring.genotype, parent.genotype)
 end
 
+function rec_rates_func(n::Int, rec_hat::Float64)
+    rand(Normal(rec_hat,0.25*rec_hat),n)
+end
+
+function mut_rates_func(n::Int, mu_hat::Float64)
+    rand(Normal(mu_hat,0.25*mu_hat),n)
+end
+nloci=1
 p = Population(# population size
                100,
+               # individual type
+               HaploidPop,
                # genotype->phenotype map, number of phenotypes
                phenof, 1,
                # fitness function
@@ -82,8 +75,11 @@ p = Population(# population size
                # initial genotype function
                (i)->[0.0],
                (e)->[1.0], # env update function
-               [1.0]); # initial env state
-
+               [1.0], # initial env state
+               nloci, # number of loci
+               rec_rates_func, # recombination rates function
+               mut_rates_func); # mutation rates function
+p
 # tic();
 freq0 = 0.1:0.1:0.9
 prob = Array{Float64}(undef, length(freq0))
@@ -114,7 +110,7 @@ function fitf(i,e)
     i.fitness[2] = 1.0 + i.genotype[1]
 end
 
-function mutf(offspring::Individual, parent::Individual)
+function mutf(offspring::HapIndividual, parent::HapIndividual)
     copy!(offspring.genotype, parent.genotype)
 end
 
@@ -122,6 +118,7 @@ end
 p = Population(# population size
                100,
                # genotype->phenotype map, number of phenotypes
+               HaploidPop,
                phenof, 1,
                # fitness function
                fitf,
@@ -148,7 +145,7 @@ function fixprob(x, n, s)
     return (1 - exp(- 2 * n * s * x)) / (1 - exp(- 2 * n * s))
 end
 
-conf = binomialConf(map((x)->fixprob(x, 100, 0.01), 0.1:0.1:0.9), reps, 0.05)
+conf = binomialConf(fixprob.(0.1:0.1:0.9, 100, 0.01), reps, 0.05)
 pygui(true)
 plot(freq0, prob, color="blue", linestyle="-")
 plot(freq0, map((x)->fixprob(x, 100, 0.01), 0.1:0.1:0.9), color="black", linestyle="-")
