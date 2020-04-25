@@ -11,11 +11,11 @@ export
 # interface
 HaploidPop, DiploidPop, HaploDiploidPop,
 # Basic types
-HapIndividual, Population,
+Chromosome, HapIndividual, DipIndividual, Population,
 # population quantities
 mean_genotype, mean_phenotype, age_distribution,
 # population dynamics
-next_gen!, setInitFreq
+next_gen!, setInitFreq!, recombine
 
 include("interface.jl")
 include("utils.jl")
