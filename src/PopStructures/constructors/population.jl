@@ -3,7 +3,7 @@
 mutable struct Population{T<:AbstractIndividual} <: AbstractPopulation
     size::Int
     pheno_func!::Function            # map genotype to phenotype
-    npheno::Int                   # number of phenotypes for each individual
+    npheno::Int                      # number of phenotypes for each individual
     fit_func!::Function              # map phenotype to fitness
     mut_func!::Function              # mutate genotype
     members::Array{T,1}

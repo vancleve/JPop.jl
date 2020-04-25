@@ -1,12 +1,13 @@
 module PopDynamics
 # import base functions for multiple dispatch
 import Base.copy, Base.copy!
-using JPop: rround, update_env_state!, calc_pheno_fitness!, Chromosome, AbstractIndividual, Population
+using JPop: rround, update_env_state!, calc_pheno_fitness!,
+            Chromosome, HapIndividual, AbstractIndividual, Population
 # using ..EnvDynamics: update_env_state!
 # using ..PopQuantities: calc_pheno_fitness!
 # using ..PopStructures: Individual, Population
 using Distributions
-export next_gen!, setInitFreq
+export next_gen!, setInitFreq!, recombine
 
 # copy methods for chromosomes
 function copy(i::Chromosome)
@@ -56,6 +57,29 @@ function copy!(x::Array{T,1}, y::Array{T,1}) where {T<:AbstractIndividual}
     for i=1:length(x)
         copy!(x[i], y[i])
     end
+end
+
+function recombine(i::HapIndividual, j::HapIndividual)
+    rec_g = Chromosome(i.nloci)
+    parent_chr = Vector{Chromosome}(undef,2)
+    parent_chr[1] = i.genome
+    parent_chr[2] = j.genome
+    r_ind = 1
+    r_count = 0             # Number of recombination events per reproduction
+    chosen_chr = parent_chr[r_ind]
+    for l=1:i.nloci
+        if rand() < parent_chr[r_ind].rec_rate[l]
+            r_count += 1
+            r_ind = 1 + r_count % 2
+            chosen_chr = parent_chr[r_ind]
+        end
+        rec_g.loci_values[l] = chosen_chr.loci_values[l]
+        rec_g.loci_ids[l] = chosen_chr.loci_ids[l]
+        rec_g.rec_rate[l] = chosen_chr.rec_rate[l]
+        rec_g.mu[l] = chosen_chr.mu[l]
+        rec_g.coop_loci[l] = chosen_chr.coop_loci[l]
+    end
+    return r_count, rec_g
 end
 
 include("./initializers.jl")
