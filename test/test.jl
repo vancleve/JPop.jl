@@ -16,7 +16,7 @@ function fixation(p, freq0, reps, iters, gvals = [1.0, 0.0])
         if r % round(reps / 10) == 0
             println(string(round(100*r/reps), "% rep ", r))
         end
-        setInitFreq(p, freq0, gvals)
+        setInitFreq!(p, freq0, gvals)
         for i in 1:iters
             next_gen!(p)
         end
@@ -61,7 +61,7 @@ end
 function mut_rates_func(n::Int, mu_hat::Float64)
     rand(Normal(mu_hat,0.25*mu_hat),n)
 end
-nloci=1
+nloci = 10
 p = Population(# population size
                100,
                # individual type
