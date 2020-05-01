@@ -24,7 +24,7 @@ using .PopStructures
 include("PopQuantities/PopQuantities.jl")
 using .PopQuantities
 include("EnvDynamics/EnvDynamics.jl")
-using .EnvDynamics
+# using .EnvDynamics
 include("PopDynamics/PopDynamics.jl")
 using .PopDynamics
 
