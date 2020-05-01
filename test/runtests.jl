@@ -1,5 +1,5 @@
 using JPop
-using Test
+using Test, Distributions
 
 const testdir = dirname(@__FILE__)
 

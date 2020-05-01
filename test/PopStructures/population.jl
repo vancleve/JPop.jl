@@ -4,11 +4,11 @@
     # number of phenotypes
     npheno = 1
     # genotype->phenotype map,
-    function phenof!(i::Individual,e)
+    function phenof!(i::HapIndividual,e)
         i.phenotype[1] = 2.0
     end
     # fitness function for Wright-Fisher model
-    function fitf!(i::Individual,e)
+    function fitf!(i::HapIndividual,e)
         # survival: non-overlapping generations (at each iteration, previous
         # generation individuals die and are replaced by their descendents)
         i.fitness[1] = 0.0
@@ -17,7 +17,7 @@
         nothing
     end
     # mutation function
-    function mutf!(offspring::Individual, parent::Individual)
+    function mutf!(offspring::HapIndividual, parent::HapIndividual)
         copy!(offspring.genotype, parent.genotype)
         nothing
     end
@@ -27,7 +27,18 @@
     envf = (e) -> [1.0]
     # initial env state
     env0 = [1.0]
-    pop = Population(size, phenof!, npheno, fitf!, mutf!, g0, envf, env0);
+    nloci = 1
+
+    function recf(n::Int, rec_hat::Float64)
+        rand(Normal(rec_hat,0.25*rec_hat),n)
+    end
+
+    function mut_rf(n::Int, mu_hat::Float64)
+        rand(Normal(mu_hat,0.25*mu_hat),n)
+    end
+
+    pop = Population(size, HaploidPop, phenof!, npheno, fitf!, mutf!, g0,
+                    envf, env0, nloci, recf, mut_rf);
     ni = rand(1:size)
     @test pop.size == size
     m = pop.members[ni]
