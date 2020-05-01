@@ -14,7 +14,7 @@ function set_genome!(i::DipIndividual, rec_rf::Function, rec_hat::Float64, mut_r
     for nhap=1:2
         chr = i.genome[nhap]
         for ni=1:n
-            i.chr.loci_ids[ni] = "$tag$ni"
+            chr.loci_ids[ni] = "$tag$ni"
         end
         chr.rec_rate .= rec_rf(n,rec_hat)
         chr.mu .= mut_rf(n,mu_hat)
