@@ -15,6 +15,7 @@ mutable struct HapIndividual <: AbstractIndividual
         i = new()
         i.age = age
         i.nloci = n
+        i.genome = Chromosome(n)
         i.genotype = g
         i.phenotype = p
         i.fitness = f
