@@ -15,6 +15,8 @@ mutable struct DipIndividual <: AbstractIndividual
         i.age = age
         i.nloci = n
         i.genome = Vector{Chromosome}(undef,2)
+        i.genome[1] = Chromosome(n)
+        i.genome[2] = Chromosome(n)
         i.genotype = g
         i.phenotype = p
         i.fitness = f
